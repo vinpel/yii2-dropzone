@@ -3,7 +3,7 @@ namespace vinpel\DropZone;
 
 use yii\helpers\Html;
 use yii\helpers\Json;
-use vinpel\DropZone\assets\DropZoneAsset;
+use vinpel\DropZone\DropZoneAsset;
 
 /**
 * Usage: \vinpel\DropZone::widget();
@@ -49,6 +49,9 @@ class DropZone extends \yii\base\Widget
         if (!isset($this->options['clickable'])) {
             $this->options['clickable'] = true;
         }
+        if (!isset($this->options['method'])) {
+            $this->options['method'] = 'POST';
+        }
         $this->autoDiscover = $this->autoDiscover===false?'false':'true';
 
         if (\Yii::$app->getRequest()->enableCsrfValidation) {
@@ -92,14 +95,15 @@ class DropZone extends \yii\base\Widget
         $view = $this->getView();
 
         $js = 'Dropzone.autoDiscover = ' . $this->autoDiscover . ";\n";
-        $js.='$("div#'.$this->id."\").dropzone(\n";
-        $js.= Json::encode($this->options, JSON_PRETTY_PRINT) . ").addClass('dropzone');\n";
+        $js.='$("#'.$this->id."\").addClass('dropzone');\n";
+        $js.='var '.$this->id.'=new Dropzone("#'.$this->id."\",\n";
+        $js.= Json::encode($this->options, JSON_PRETTY_PRINT) . ");\n";
+
         if (!empty($this->clientEvents)) {
             foreach ($this->clientEvents as $event => $handler) {
-                $js .= '$("div#'.$this->id."\").on('$event', $handler);\n";
+                $js .=$this->id.".on('$event', $handler);\n";
             }
         }
-
         $view->registerJs($js);
         DropZoneAsset::register($view);
     }
