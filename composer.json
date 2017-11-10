@@ -1,6 +1,6 @@
 {
-    "name": "perminder-klair/yii2-dropzone",
-    "description": "DropzoneJs Extention for Yii2",
+    "name": "vinpel/yii2-dropzone",
+    "description": "DropzoneJs Extention for Yii2 based on Parminder repo",
     "type": "yii2-extension",
     "keywords": ["yii2","extension","dropzone","upload"],
     "license": "MIT",
@@ -21,7 +21,7 @@
     },
     "autoload": {
         "psr-4": {
-            "kato\\": ""
+            "vinpel\\DropZone\\": ""
         }
     },
     "repositories": [

@@ -1,6 +1,6 @@
 <?php
 
-namespace kato\assets;
+namespace vinpel\DropZone\assets;
 
 use yii\web\AssetBundle;
 

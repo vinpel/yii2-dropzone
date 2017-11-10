@@ -1,13 +1,12 @@
 <?php
-
-namespace kato;
+namespace vinpel\DropZone;
 
 use yii\helpers\Html;
 use yii\helpers\Json;
 use kato\assets\DropZoneAsset;
 
 /**
-* Usage: \kato\dropzonejs\DropZone::widget();
+* Usage: \vinpel\DropZone::widget();
 * Class DropZone
 * @package kato
 */
