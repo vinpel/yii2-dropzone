@@ -5,26 +5,29 @@ namespace kato\assets;
 use yii\web\AssetBundle;
 
 /**
- * Asset bundle for DropZone Widget
- */
+* Asset bundle for DropZone Widget
+*/
 class DropZoneAsset extends AssetBundle
 {
 
-    public $sourcePath = '@dropzone/bower_components';
+    public $sourcePath = '@bower/dropzone/dist';
 
     public $js = [
-        "dropzone/dist/min/dropzone.min.js"
+    'min/dropzone.min.js',
     ];
 
     public $css = [
-        "dropzone/dist/min/dropzone.min.css"
+      'min/dropzone.min.css',
     ];
 
-    /**
-     * @var array
-     */
+  /**
+  * @var array
+  */
     public $publishOptions = [
-        'forceCopy' => true
+    'forceCopy' => true
     ];
-
+    public $depends = [
+    'yii\web\JqueryAsset',
+    'yii\jui\JuiAsset',
+    ];
 }
