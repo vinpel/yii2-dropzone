@@ -3,7 +3,7 @@ namespace vinpel\DropZone;
 
 use yii\helpers\Html;
 use yii\helpers\Json;
-use kato\assets\DropZoneAsset;
+use vinpel\DropZone\assets\DropZoneAsset;
 
 /**
 * Usage: \vinpel\DropZone::widget();
@@ -23,11 +23,10 @@ class DropZone extends \yii\base\Widget
     public $clientEvents = [];
 
   //Default Values
-    public $id = 'myDropzone';
-    public $uploadUrl = '/site/upload';
-    public $dropzoneContainer = 'myDropzone';
+    public $id                = 'myIdDropzone';
+    public $uploadUrl         = '/site/upload';
     public $previewsContainer = 'previews';
-    public $autoDiscover = false;
+    public $autoDiscover      = false;
 
   /**
   * Initializes the widget
@@ -53,22 +52,28 @@ class DropZone extends \yii\base\Widget
         $this->autoDiscover = $this->autoDiscover===false?'false':'true';
 
         if (\Yii::$app->getRequest()->enableCsrfValidation) {
-            $this->options['headers'][\yii\web\Request::CSRF_HEADER] = \Yii::$app->getRequest()->getCsrfToken();
+            $this->options['headers'][\yii\web\Request::CSRF_HEADER]      = \Yii::$app->getRequest()->getCsrfToken();
             $this->options['params'][\Yii::$app->getRequest()->csrfParam] = \Yii::$app->getRequest()->getCsrfToken();
         }
 
-        \Yii::setAlias('@dropzone', dirname(__FILE__));
+
         $this->registerAssets();
     }
-
+  /**
+  * Create a div container
+  * i don't add 'dropzone' class because the autoDiscover=false is inside jQuery.ready
+  * @return string html div code
+  */
     public function run()
     {
-        return Html::tag('div', $this->renderDropzone(), [
-        'id'    => $this->dropzoneContainer,
-        'class' => 'dropzone'
+        return  Html::tag('div', $this->renderDropzone(), [
+        'id'    => $this->id,
         ]);
     }
-
+  /**
+  * Dropzene preview, included inside the div container
+  * @return string  Html div code for preview
+  */
     private function renderDropzone()
     {
         $data = Html::tag('div', '', [
@@ -86,12 +91,12 @@ class DropZone extends \yii\base\Widget
     {
         $view = $this->getView();
 
-        $js = 'Dropzone.autoDiscover = ' . $this->autoDiscover . '; var ' . $this->id . ' = new Dropzone("div#' ;
-        $js.= $this->dropzoneContainer . '", ' . Json::encode($this->options) . ');';
-
+        $js = 'Dropzone.autoDiscover = ' . $this->autoDiscover . ";\n";
+        $js.='$("div#'.$this->id."\").dropzone(\n";
+        $js.= Json::encode($this->options, JSON_PRETTY_PRINT) . ").addClass('dropzone');\n";
         if (!empty($this->clientEvents)) {
             foreach ($this->clientEvents as $event => $handler) {
-                $js .= "$this->id.on('$event', $handler);";
+                $js .= '$("div#'.$this->id."\").on('$event', $handler);\n";
             }
         }
 

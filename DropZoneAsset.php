@@ -1,6 +1,6 @@
 <?php
 
-namespace vinpel\DropZone\assets;
+namespace vinpel\DropZone;
 
 use yii\web\AssetBundle;
 
@@ -10,22 +10,20 @@ use yii\web\AssetBundle;
 class DropZoneAsset extends AssetBundle
 {
 
-    public $sourcePath = '@bower/dropzone/dist';
+    public $sourcePath = '@bower/dropzone/dist/min';
 
     public $js = [
-    'min/dropzone.min.js',
+    'dropzone.min.js',
     ];
 
     public $css = [
-      'min/dropzone.min.css',
+    'dropzone.min.css',
     ];
 
-  /**
-  * @var array
-  */
     public $publishOptions = [
-    'forceCopy' => true
+    'forceCopy' => false
     ];
+
     public $depends = [
     'yii\web\JqueryAsset',
     'yii\jui\JuiAsset',
